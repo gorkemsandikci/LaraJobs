@@ -13,7 +13,11 @@
         </div>
 
         <div class="mt-6 p-4">
-            {{ $jobs->links() }}
+            @if(request('tag'))
+                {{ $jobs->appends(['tag' => request('tag')])->links() }}
+            @elseif(request('search'))
+                {{ $jobs->appends(['search' => request('search')])->links() }}
+            @endif
         </div>
     </main>
 </x-layout>
