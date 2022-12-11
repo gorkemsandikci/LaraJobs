@@ -28,7 +28,7 @@ class JobController extends Controller
      */
     public function create()
     {
-        //
+        return view('jobs.create');
     }
 
     /**
@@ -39,7 +39,24 @@ class JobController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $formFields = $request->validate([
+            'title' => 'required|unique:jobs',
+            'company' => 'required',
+            'location' => 'required',
+            'email' => 'required|email',
+            'website' => 'required|url',
+            'tags' => 'required',
+            'description' => 'required',
+        ]);
+
+        if($request->hasFile('logo'))
+        {
+            $formFields['logo'] = $request->file('logo')->store('logos', 'public');
+        }
+
+        Job::create($formFields);
+
+        return redirect('/')->with('message', 'Job created successfully!');
     }
 
     /**
