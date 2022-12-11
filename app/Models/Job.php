@@ -16,7 +16,8 @@ class Job extends Model
         'location',
         'website',
         'email',
-        'description'
+        'description',
+        'logo'
     ];
 
     public function scopeFilter($query, array $filters)
