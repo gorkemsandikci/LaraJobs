@@ -14,7 +14,7 @@
         <x-job-tags :tagsCsv="$job->tags" />
 
         <div class="text-lg my-4">
-            <i class="fa-solid fa-location-dot"></i> {{ $job->company }}
+            <i class="fa-solid fa-location-dot"></i> {{ $job->location }}
         </div>
         <div class="border border-gray-200 w-full mb-6"></div>
         <div>
