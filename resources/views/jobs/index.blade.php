@@ -17,6 +17,8 @@
                 {{ $jobs->appends(['tag' => request('tag')])->links() }}
             @elseif(request('search'))
                 {{ $jobs->appends(['search' => request('search')])->links() }}
+            @else
+                {{ $jobs->links() }}
             @endif
         </div>
     </main>
