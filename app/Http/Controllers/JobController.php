@@ -15,7 +15,7 @@ class JobController extends Controller
     public function index()
     {
         $jobs = Job::latest()
-            ->filter(request(['tag']))
+            ->filter(request(['tag', 'search']))
             ->paginate(6);
         return view('jobs.index', compact('jobs'));
     }

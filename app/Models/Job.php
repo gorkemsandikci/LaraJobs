@@ -15,5 +15,15 @@ class Job extends Model
         {
             return $query->where('tags', 'like', '%' . $filters['tag'] . '%');
         }
+
+        if($filters['search'] ?? false)
+        {
+            return $query->where('title', 'like', '%' . $filters['search'] . '%')
+                ->orWhere('description', 'like', '%' . $filters['search'] . '%')
+                ->orWhere('company', 'like', '%' . $filters['search'] . '%')
+                ->orWhere('location', 'like', '%' . $filters['search'] . '%')
+                ->orWhere('website', 'like', '%' . $filters['search'] . '%')
+                ->orWhere('tags', 'like', '%' . $filters['search'] . '%');
+        }
     }
 }
