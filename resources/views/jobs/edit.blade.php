@@ -175,7 +175,7 @@
                     Update Job
                 </button>
 
-                <a href="/" class="text-black ml-4">Back to the job</a>
+                <a href="/jobs/{{ $job->id }}" class="text-black ml-4">Back to the job</a>
             </div>
         </form>
     </x-card>
