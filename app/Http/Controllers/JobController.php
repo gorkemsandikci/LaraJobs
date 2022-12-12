@@ -137,9 +137,10 @@ class JobController extends Controller
         {
             return abort(403, 'Unauthorized Action');
         }
-        
+
+        unlink('storage/' . $job->logo);
         $job->delete();
 
-        return redirect('/')->with('message', 'Listing deleted successfully.');
+        return redirect('/')->with('message', 'Job deleted successfully.');
     }
 }

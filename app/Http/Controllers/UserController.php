@@ -116,8 +116,19 @@ class UserController extends Controller
 
         if(Hash::check(request()->password, auth()->user()->password))
         {
+            // Delete all user job logos
+            foreach(auth()->user()->jobs()->whereNotNull('logo')->get() as $job)
+            {
+                unlink('storage/' . $job->logo);
+            }
+
+            // Delete all user jobs
             auth()->user()->jobs()->delete();
+
+            // Delete user
             auth()->user()->delete();
+
+            // Redirect to home page after successful deletion
             return redirect('/')->with('message', 'User deleted successfully');
         }
 
