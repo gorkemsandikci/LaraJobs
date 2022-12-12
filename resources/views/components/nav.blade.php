@@ -11,7 +11,7 @@
 
             <li>
                 <a href="/users/jobs" class="hover:text-laravel">
-                    <i class="fa-solid fa-gear"></i>
+                    <i class="fa-solid fa-newspaper"></i>
                     Manage Your Jobs
                 </a>
             </li>
