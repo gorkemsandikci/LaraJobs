@@ -29,4 +29,4 @@ Route::get('/login', [UserController::class, 'login'])->name('login')->middlewar
 Route::post('/login', [UserController::class, 'authenticate'])->middleware('guest');
 Route::post('/logout', [UserController::class, 'logout'])->middleware('auth');
 Route::get('/users/jobs', [UserController::class, 'jobs'])->middleware('auth');
-Route::get('/users/{user}', [UserController::class, 'show'])->middleware('auth');
+Route::get('/users/manage', [UserController::class, 'show'])->middleware('auth');

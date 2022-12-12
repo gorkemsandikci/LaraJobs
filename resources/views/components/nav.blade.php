@@ -10,7 +10,7 @@
             </li>
 
             <li>
-                <a href="/users/{{ auth()->id() }}" class="hover:text-laravel">
+                <a href="/users/manage" class="hover:text-laravel">
                     <i class="fa-solid fa-gear"></i>
                     Manage Your Account
                 </a>
