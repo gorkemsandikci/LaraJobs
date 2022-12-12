@@ -27,14 +27,19 @@
                                 </a>
                             </td>
                             <td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
-                                <form method="POST" action="/jobs/{{ $job->id }}">
+                                <a class="hover:text-laravel" href="" onclick="
+                                    event.preventDefault();
+                                    if(confirm('Are you sure that you want to delete this job?')) {
+                                        document.getElementById('job-{{ $job->id }}').submit();
+                                    }
+                                ">
+                                    <i class="fa-solid fa-trash-can"></i> Delete
+                                </a>
+
+                                <form method="POST" action="/jobs/{{ $job->id }}" id="job-{{ $job->id }}">
                                     @csrf
 
                                     @method('DELETE')
-
-                                    <button class="text-red-600">
-                                        <i class="fa-solid fa-trash-can"></i> Delete
-                                    </button>
                                 </form>
                             </td>
                         </tr>
