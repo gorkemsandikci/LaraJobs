@@ -83,6 +83,8 @@
                 >
                     Update
                 </button>
+
+                <a href="/users/manage" class="text-black ml-4">Back to your page</a>
             </div>
         </form>
     </x-card>
