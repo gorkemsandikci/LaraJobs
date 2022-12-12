@@ -130,8 +130,10 @@ class UserController extends Controller
 
     public function jobs()
     {
-        return view('users.jobs', [
-            'jobs' => auth()->user()->jobs()->get()
-        ]);
+        $jobs = auth()->user()->jobs()->latest()
+            ->filter(request(['search']))
+            ->paginate(6);
+
+        return view('users.jobs', compact('jobs'));
     }
 }
