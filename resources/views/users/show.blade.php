@@ -22,15 +22,15 @@
             </li>
 
             <li>
-                <a href="" class="hover:text-laravel">
-                    <i class="fa-solid fa-user-pen"></i> Edit Your Account
+                <a href="/users/jobs" class="hover:text-laravel">
+                    <i class="fa-solid fa-newspaper"></i>
+                    Manage Jobs You've Posted
                 </a>
             </li>
 
             <li>
-                <a href="/users/jobs" class="hover:text-laravel">
-                    <i class="fa-solid fa-newspaper"></i>
-                    Manage Jobs You've Posted
+                <a href="/users/{{ auth()->id() }}/edit" class="hover:text-laravel">
+                    <i class="fa-solid fa-user-pen"></i> Edit Your Account
                 </a>
             </li>
         </ul>

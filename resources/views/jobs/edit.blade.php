@@ -11,6 +11,7 @@
             @csrf
 
             @method('PUT')
+
             <div class="mb-6">
                 <label
                         for="company"

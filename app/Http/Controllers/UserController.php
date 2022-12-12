@@ -70,7 +70,7 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('users.edit');
     }
 
     /**
@@ -80,9 +80,22 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $formFields = $request->validate([
+            'name' => 'required|min:3',
+            'email' => 'required|email',
+            'password' => 'required|min:6|confirmed'
+        ]);
+
+        // Encrypt password with bcrypt
+        $formFields['password'] = bcrypt($formFields['password']);
+
+        auth()->user()->update($formFields);
+
+        //auth()->login($user);
+
+        return redirect('/users/manage')->with('message', 'User updated successfully.');
     }
 
     /**
