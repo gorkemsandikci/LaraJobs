@@ -21,7 +21,7 @@
                     @csrf
 
                     <button type="submit">
-                        <i class="fa-solid fa-door-closed"></i> Logout
+                        <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
                     </button>
                 </form>
             </li>
