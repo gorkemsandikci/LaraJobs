@@ -9,11 +9,20 @@
                 <i class="fa-solid fa-user-plus"></i> Register
             </a>
         </li>
-        
+
         <li>
             <a href="/login" class="hover:text-laravel">
                 <i class="fa-solid fa-arrow-right-to-bracket"></i> Login
             </a>
+        </li>
+
+        <li>
+            <form class="inline" method="POST" action="/logout">
+                @csrf
+                <button type="submit">
+                    <i class="fa-solid fa-door-closed"></i> Logout
+                </button>
+            </form>
         </li>
     </ul>
 </nav>
