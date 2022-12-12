@@ -78,7 +78,7 @@ class JobController extends Controller
      */
     public function edit(Job $job)
     {
-        //
+        return view('jobs.edit', compact('job'));
     }
 
     /**
@@ -90,7 +90,24 @@ class JobController extends Controller
      */
     public function update(Request $request, Job $job)
     {
-        //
+        $formFields = $request->validate([
+            'title' => 'required',
+            'company' => 'required',
+            'location' => 'required',
+            'email' => 'required|email',
+            'website' => 'required|url',
+            'tags' => 'required',
+            'description' => 'required'
+        ]);
+
+        if($request->hasFile('logo'))
+        {
+            $formFields['logo'] = $request->file('logo')->store('logos', 'public');
+        }
+
+        $job->update($formFields);
+
+        return redirect('/jobs/' . $job->id)->with('message', 'Job updated successfully!');
     }
 
     /**
