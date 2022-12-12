@@ -33,6 +33,12 @@
                     <i class="fa-solid fa-user-pen"></i> Edit Your Account
                 </a>
             </li>
+
+            <li>
+                <a href="/users/delete" class="hover:text-laravel">
+                    <i class="fa-solid fa-warning"></i> Delete Your Account
+                </a>
+            </li>
         </ul>
     </x-card>
 </x-layout>

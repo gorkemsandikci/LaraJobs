@@ -32,3 +32,5 @@ Route::get('/users/jobs', [UserController::class, 'jobs'])->middleware('auth');
 Route::get('/users/manage', [UserController::class, 'show'])->middleware('auth');
 Route::get('/users/edit', [UserController::class, 'edit'])->middleware('auth');
 Route::put('/users', [UserController::class, 'update'])->middleware('auth');
+Route::get('/users/delete', [UserController::class, 'delete'])->middleware('auth');
+Route::delete('/users', [UserController::class, 'destroy'])->middleware('auth');

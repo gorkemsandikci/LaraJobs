@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -93,9 +94,12 @@ class UserController extends Controller
 
         auth()->user()->update($formFields);
 
-        //auth()->login($user);
-
         return redirect('/users/manage')->with('message', 'User updated successfully.');
+    }
+
+    public function delete()
+    {
+        return view('users.delete');
     }
 
     /**
@@ -104,9 +108,19 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy()
     {
-        //
+        request()->validate([
+            'password' => 'required|confirmed'
+        ]);
+
+        if(Hash::check(request()->password, auth()->user()->password))
+        {
+            auth()->user()->delete();
+            return redirect('/')->with('message', 'User deleted successfully');
+        }
+
+        return back()->withErrors(['password' => 'Incorrect Password']);
     }
 
     public function login()
