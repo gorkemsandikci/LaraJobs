@@ -29,7 +29,7 @@
             </li>
 
             <li>
-                <a href="/users/{{ auth()->id() }}/edit" class="hover:text-laravel">
+                <a href="/users/edit" class="hover:text-laravel">
                     <i class="fa-solid fa-user-pen"></i> Edit Your Account
                 </a>
             </li>

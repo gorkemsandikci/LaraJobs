@@ -30,5 +30,5 @@ Route::post('/login', [UserController::class, 'authenticate'])->middleware('gues
 Route::post('/logout', [UserController::class, 'logout'])->middleware('auth');
 Route::get('/users/jobs', [UserController::class, 'jobs'])->middleware('auth');
 Route::get('/users/manage', [UserController::class, 'show'])->middleware('auth');
-Route::get('/users/{user}/edit', [UserController::class, 'edit'])->middleware('auth');
-Route::put('/users/{user}', [UserController::class, 'update'])->middleware('auth');
+Route::get('/users/edit', [UserController::class, 'edit'])->middleware('auth');
+Route::put('/users', [UserController::class, 'update'])->middleware('auth');

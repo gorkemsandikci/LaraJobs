@@ -7,7 +7,7 @@
             <p class="mb-4">Edit Your Account</p>
         </header>
 
-        <form method="POST" action="/users/{{ auth()->id() }}">
+        <form method="POST" action="/users">
             @csrf
 
             @method('PUT')
