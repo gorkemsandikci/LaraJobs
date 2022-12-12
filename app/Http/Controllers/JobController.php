@@ -80,6 +80,12 @@ class JobController extends Controller
      */
     public function edit(Job $job)
     {
+        // Ensure logged in user is owner
+        if($job->user_id !== auth()->id())
+        {
+            return abort(403, 'Unauthorized Action');
+        }
+
         return view('jobs.edit', compact('job'));
     }
 
@@ -92,6 +98,12 @@ class JobController extends Controller
      */
     public function update(Request $request, Job $job)
     {
+        // Ensure logged in user is owner
+        if($job->user_id !== auth()->id())
+        {
+            return abort(403, 'Unauthorized Action');
+        }
+
         $formFields = $request->validate([
             'title' => 'required',
             'company' => 'required',
@@ -120,6 +132,12 @@ class JobController extends Controller
      */
     public function destroy(Job $job)
     {
+        // Ensure logged in user is owner
+        if($job->user_id !== auth()->id())
+        {
+            return abort(403, 'Unauthorized Action');
+        }
+        
         $job->delete();
 
         return redirect('/')->with('message', 'Listing deleted successfully.');
