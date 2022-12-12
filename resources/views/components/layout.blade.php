@@ -33,6 +33,8 @@
 
 <x-hero />
 
+<x-search />
+
 {{ $slot }}
 
 <x-footer />
