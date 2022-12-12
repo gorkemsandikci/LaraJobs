@@ -10,9 +10,9 @@
             </li>
 
             <li>
-                <a href="/users/jobs" class="hover:text-laravel">
-                    <i class="fa-solid fa-newspaper"></i>
-                    Manage Your Jobs
+                <a href="/users/{{ auth()->id() }}" class="hover:text-laravel">
+                    <i class="fa-solid fa-gear"></i>
+                    Manage Your Account
                 </a>
             </li>
 
