@@ -25,6 +25,6 @@ Route::delete('/jobs/{job}', [JobController::class, 'destroy'])->middleware('aut
 
 Route::get('/register', [UserController::class, 'create'])->middleware('guest');
 Route::post('/register', [UserController::class, 'store'])->middleware('guest');
-Route::get('/login', [UserController::class, 'login'])->middleware('guest');
+Route::get('/login', [UserController::class, 'login'])->name('login')->middleware('guest');
 Route::post('/login', [UserController::class, 'authenticate'])->middleware('guest');
 Route::post('/logout', [UserController::class, 'logout'])->middleware('auth');
