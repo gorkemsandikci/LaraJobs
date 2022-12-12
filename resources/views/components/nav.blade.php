@@ -10,6 +10,13 @@
             </li>
 
             <li>
+                <a href="/users/jobs" class="hover:text-laravel">
+                    <i class="fa-solid fa-gear"></i>
+                    Manage Your Jobs
+                </a>
+            </li>
+
+            <li>
                 <form class="hover:text-laravel" method="POST" action="/logout">
                     @csrf
 

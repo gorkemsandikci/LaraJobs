@@ -127,4 +127,11 @@ class UserController extends Controller
 
         return redirect('/')->with('message', 'You have been logged out.');
     }
+
+    public function jobs()
+    {
+        return view('users.jobs', [
+            'jobs' => auth()->user()->jobs()->get()
+        ]);
+    }
 }

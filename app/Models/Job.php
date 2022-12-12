@@ -17,7 +17,8 @@ class Job extends Model
         'website',
         'email',
         'description',
-        'logo'
+        'logo',
+        'user_id'
     ];
 
     public function scopeFilter($query, array $filters)
@@ -36,5 +37,10 @@ class Job extends Model
                 ->orWhere('website', 'like', '%' . $filters['search'] . '%')
                 ->orWhere('tags', 'like', '%' . $filters['search'] . '%');
         }
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }
