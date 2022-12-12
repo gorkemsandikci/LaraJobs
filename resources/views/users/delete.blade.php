@@ -8,7 +8,7 @@
             <p class="mb-4">Delete Your Account</p>
         </header>
 
-        <form method="POST" action="/users">
+        <form method="POST" action="/users" id="user-{{ auth()->id() }}">
             @csrf
 
             @method('DELETE')
@@ -43,14 +43,14 @@
                 @enderror
             </div>
 
-            <div class="mb-6">
-                <button
-                    type="submit"
-                    class="bg-laravel text-white rounded py-2 px-4 hover:bg-black"
-                >
-                    Delete
-                </button>
-            </div>
+            <a class="bg-laravel text-white rounded py-2 px-4 hover:bg-black" href="" onclick="
+                event.preventDefault();
+                if(confirm('Are you sure that you want to delete your account and jobs?')) {
+                    document.getElementById('user-{{ auth()->id() }}').submit();
+                }
+            ">
+                Delete
+            </a>
         </form>
     </x-card>
 </x-layout>
