@@ -116,6 +116,7 @@ class UserController extends Controller
 
         if(Hash::check(request()->password, auth()->user()->password))
         {
+            auth()->user()->jobs()->delete();
             auth()->user()->delete();
             return redirect('/')->with('message', 'User deleted successfully');
         }
