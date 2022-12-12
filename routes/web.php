@@ -16,15 +16,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [JobController::class, 'index']);
-Route::get('/jobs/create', [JobController::class, 'create']);
-Route::post('/jobs', [JobController::class, 'store']);
+Route::get('/jobs/create', [JobController::class, 'create'])->middleware('auth');
+Route::post('/jobs', [JobController::class, 'store'])->middleware('auth');
 Route::get('/jobs/{job}', [JobController::class, 'show']);
-Route::get('/jobs/{job}/edit', [JobController::class, 'edit']);
-Route::put('/jobs/{job}', [JobController::class, 'update']);
-Route::delete('/jobs/{job}', [JobController::class, 'destroy']);
+Route::get('/jobs/{job}/edit', [JobController::class, 'edit'])->middleware('auth');
+Route::put('/jobs/{job}', [JobController::class, 'update'])->middleware('auth');
+Route::delete('/jobs/{job}', [JobController::class, 'destroy'])->middleware('auth');
 
-Route::get('/register', [UserController::class, 'create']);
-Route::post('/register', [UserController::class, 'store']);
-Route::get('/login', [UserController::class, 'login']);
-Route::post('/login', [UserController::class, 'authenticate']);
-Route::post('/logout', [UserController::class, 'logout']);
+Route::get('/register', [UserController::class, 'create'])->middleware('guest');
+Route::post('/register', [UserController::class, 'store'])->middleware('guest');
+Route::get('/login', [UserController::class, 'login'])->middleware('guest');
+Route::post('/login', [UserController::class, 'authenticate'])->middleware('guest');
+Route::post('/logout', [UserController::class, 'logout'])->middleware('auth');
