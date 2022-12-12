@@ -25,3 +25,5 @@ Route::delete('/jobs/{job}', [JobController::class, 'destroy']);
 
 Route::get('/register', [UserController::class, 'create']);
 Route::post('/register', [UserController::class, 'store']);
+Route::get('/login', [UserController::class, 'login']);
+Route::post('/login', [UserController::class, 'authenticate']);
