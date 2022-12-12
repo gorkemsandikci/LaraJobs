@@ -20,3 +20,4 @@ Route::post('/jobs', [JobController::class, 'store']);
 Route::get('/jobs/{job}', [JobController::class, 'show']);
 Route::get('/jobs/{job}/edit', [JobController::class, 'edit']);
 Route::put('/jobs/{job}', [JobController::class, 'update']);
+Route::delete('/jobs/{job}', [JobController::class, 'destroy']);
