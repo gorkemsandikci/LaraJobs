@@ -22,6 +22,7 @@ Route::get('/jobs/{job}', [JobController::class, 'show']);
 Route::get('/jobs/{job}/edit', [JobController::class, 'edit'])->middleware('auth');
 Route::put('/jobs/{job}', [JobController::class, 'update'])->middleware('auth');
 Route::delete('/jobs/{job}', [JobController::class, 'destroy'])->middleware('auth');
+Route::delete('/jobs/{job}/logo', [JobController::class, 'remove_logo'])->middleware('auth');
 
 Route::get('/register', [UserController::class, 'create'])->middleware('guest');
 Route::post('/register', [UserController::class, 'store'])->middleware('guest');

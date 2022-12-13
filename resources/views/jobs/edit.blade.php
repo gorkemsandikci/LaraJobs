@@ -150,6 +150,17 @@
                         {{ $message }}
                     </p>
                 @enderror
+
+                @if($job->logo)
+                    <a class="bg-laravel text-white rounded py-2 px-4 hover:bg-black" href="" onclick="
+                        event.preventDefault();
+                        if(confirm('Are you sure that you want to remove this logo?')) {
+                            document.getElementById('logo-job-{{ $job->id }}').submit();
+                        }
+                    ">
+                        <i class="fa-solid fa-x"></i> Remove Logo
+                    </a>
+                @endif
             </div>
 
             <div class="mb-6">
@@ -178,5 +189,13 @@
                 <a href="/jobs/{{ $job->id }}" class="text-black ml-4">Back to the job</a>
             </div>
         </form>
+
+        @if($job->logo)
+            <form method="POST" action="/jobs/{{ $job->id }}/logo" id="logo-job-{{ $job->id }}">
+                @csrf
+
+                @method('DELETE')
+            </form>
+        @endif
     </x-card>
 </x-layout>

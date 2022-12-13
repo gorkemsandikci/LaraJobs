@@ -143,4 +143,22 @@ class JobController extends Controller
 
         return redirect('/')->with('message', 'Job deleted successfully.');
     }
+
+    public function remove_logo(Job $job)
+    {
+        // Ensure logged in user is owner
+        if($job->user_id !== auth()->id())
+        {
+            return abort(403, 'Unauthorized Action');
+        }
+        
+        // Remove the actual logo file from the storage
+        @unlink('storage/' . $job->logo);
+
+        // Nullify the logo value of the job
+        $job->logo = null;
+        $job->update();
+
+        return back()->with('message', 'Logo removed successfully.');
+    }
 }
