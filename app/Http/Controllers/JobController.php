@@ -47,6 +47,7 @@ class JobController extends Controller
             'website' => 'required|url',
             'tags' => 'required',
             'description' => 'required',
+            'logo' => 'image|nullable|max:4096'
         ]);
 
         if($request->hasFile('logo'))
@@ -111,7 +112,8 @@ class JobController extends Controller
             'email' => 'required|email',
             'website' => 'required|url',
             'tags' => 'required',
-            'description' => 'required'
+            'description' => 'required',
+            'logo' => 'image|nullable|max:4096'
         ]);
 
         if($request->hasFile('logo'))
@@ -138,7 +140,13 @@ class JobController extends Controller
             return abort(403, 'Unauthorized Action');
         }
 
-        unlink('storage/' . $job->logo);
+        // If job has logo delete it
+        if($job->logo)
+        {
+            unlink('storage/' . $job->logo);
+        }
+
+        // Delete the job itself
         $job->delete();
 
         return redirect('/')->with('message', 'Job deleted successfully.');
@@ -151,9 +159,13 @@ class JobController extends Controller
         {
             return abort(403, 'Unauthorized Action');
         }
-        
-        // Remove the actual logo file from the storage
-        @unlink('storage/' . $job->logo);
+
+        // If job has logo delete it
+        if($job->logo)
+        {
+            // Remove the actual logo file from the storage
+            unlink('storage/' . $job->logo);
+        }
 
         // Nullify the logo value of the job
         $job->logo = null;
