@@ -11,10 +11,11 @@ class Job extends Model
 
     protected $fillable = [
         'title',
+        'slug',
         'tags',
         'company',
         'location',
-        'website',
+        'url',
         'email',
         'description',
         'logo',
@@ -31,10 +32,11 @@ class Job extends Model
         if($filters['search'] ?? false)
         {
             return $query->where('title', 'like', '%' . $filters['search'] . '%')
+                ->orWhere('slug', 'like', '%' . $filters['search'] . '%')
                 ->orWhere('description', 'like', '%' . $filters['search'] . '%')
                 ->orWhere('company', 'like', '%' . $filters['search'] . '%')
                 ->orWhere('location', 'like', '%' . $filters['search'] . '%')
-                ->orWhere('website', 'like', '%' . $filters['search'] . '%')
+                ->orWhere('url', 'like', '%' . $filters['search'] . '%')
                 ->orWhere('tags', 'like', '%' . $filters['search'] . '%');
         }
     }

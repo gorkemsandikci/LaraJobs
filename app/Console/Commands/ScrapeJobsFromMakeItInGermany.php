@@ -6,6 +6,7 @@ use App\Models\Job;
 use Goutte\Client;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class ScrapeJobsFromMakeItInGermany extends Command
 {
@@ -36,54 +37,67 @@ class ScrapeJobsFromMakeItInGermany extends Command
     public function handle()
     {
         $client = new Client();
+        $base_url = 'https://www.make-it-in-germany.com/en/working-in-germany/job-listings';
 
-        $crawler = $client->request('GET', 'https://www.make-it-in-germany.com/en/working-in-germany/job-listings');
-        // HTML yapısının doğru olup olmadığını kontrol edin
-        $crawler->filter('.list__item')->each(function ($node) {
-            try {
-                $title = $node->filter('h3.h5 a')->text();
-                $jobUrl = $node->filter('h3.h5 a')->attr('href');
-                $company = $node->filter('p')->text();
-                $location = $node->filter('.icon--pin .element')->text();
-                $date = $node->filter('.icon--calendar time')->attr('datetime');
-                $category = $node->filter('.icon--user .element')->text();
+        // İlk sayfayı alarak pagination bölümünden son sayfa numarasını öğrenelim
+        $crawler = $client->request('GET', $base_url);
 
-                $job = Job::where('website', $jobUrl)->first();
+        // Son sayfa numarasını pagination'dan çek
+        $lastPage = $crawler->filter('.pagination__item--last a')->attr('href');
+        preg_match('/tx_solr%5Bpage%5D=(\d+)/', $lastPage, $matches);
+        $lastPage = isset($matches[1]) ? (int)$matches[1] : 1;
 
-//                dd($title, $jobUrl, $company, $location, $date, $category);
-                // Veritabanına kaydet
-                if ($job) {
-                    $job->update([
-                        'title' => $title,
-                        'email' => $title, // Bu alan doğru şekilde doldurulmalı
-                        'company' => $company,
-                        'location' => $location,
-                        'date_posted' => $date,
-                        'tags' => $category,
-                        'description' => 'Açıklama yok',
-                        'logo' => null,
-                        'user_id' => 1, // Varsayılan kullanıcı ID'si
-                    ]);
-                } else {
-                    // Kayıt mevcut değilse yeni bir kayıt oluştur
-                    Job::create([
-                        'title' => $title,
-                        'email' => $title, // Bu alan doğru şekilde doldurulmalı
-                        'website' => $jobUrl,
-                        'company' => $company,
-                        'location' => $location,
-                        'date_posted' => $date,
-                        'tags' => $category,
-                        'description' => 'Açıklama yok',
-                        'logo' => null,
-                        'user_id' => 1, // Varsayılan kullanıcı ID'si
-                    ]);
+        $this->info('Toplam Sayfa: ' . $lastPage);
+
+        // Sayfa sayısı belirsiz olduğu için döngüyle devam edeceğiz
+        $page = 1;
+
+        while ($page <= $lastPage) {
+            // Sayfa URL'si oluşturuluyor
+            $url = $base_url . '?tx_solr%5Bpage%5D=' . $page . '#list';
+
+            // Sayfadaki ilanlar çekiliyor
+            $crawler = $client->request('GET', $url);
+
+            $crawler->filter('.list__item')->each(function ($node) {
+                try {
+                    $title = $node->filter('h3.h5 a')->text();
+                    $job_url = $node->filter('h3.h5 a')->attr('href');
+                    $company = $node->filter('p')->text();
+                    $location = $node->filter('.icon--pin .element')->text();
+                    $date = $node->filter('.icon--calendar time')->attr('datetime');
+                    $category = $node->filter('.icon--user .element')->text();
+
+                    // Veritabanında job URL'sine göre bir kayıt arayın
+                    $job = Job::where('url', $job_url)->first();
+
+                    if (!$job) {
+                        Job::create([
+                            'title' => $title,
+                            'slug' => Str::of($title)->slug('-'),
+                            'email' => $title,
+                            'url' => $job_url,
+                            'company' => $company,
+                            'location' => $location,
+                            'date_posted' => $date,
+                            'tags' => $category,
+                            'description' => 'Açıklama yok',
+                            'logo' => null,
+                            'user_id' => 1,
+                        ]);
+                    }
+                } catch (\Exception $e) {
+                    $this->error('Hata: ' . $e->getMessage());
                 }
-            } catch (\Exception $e) {
-//                $this->error('Hata: ' . $e->getMessage());
-            }
-        });
+            });
 
-        $this->info('İş ilanları başarıyla toplandı ve veritabanına kaydedildi!');
+            $this->info('Sayfa ' . $page . ' iş ilanları başarıyla toplandı.');
+
+            // Bir sonraki sayfaya geç
+            $page++;
+        }
+
+        $this->info('Tüm iş ilanları başarıyla toplandı ve veritabanına kaydedildi!');
+
     }
 }
