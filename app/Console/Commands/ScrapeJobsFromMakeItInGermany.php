@@ -39,24 +39,19 @@ class ScrapeJobsFromMakeItInGermany extends Command
         $client = new Client();
         $base_url = 'https://www.make-it-in-germany.com/en/working-in-germany/job-listings';
 
-        // İlk sayfayı alarak pagination bölümünden son sayfa numarasını öğrenelim
         $crawler = $client->request('GET', $base_url);
 
-        // Son sayfa numarasını pagination'dan çek
         $lastPage = $crawler->filter('.pagination__item--last a')->attr('href');
         preg_match('/tx_solr%5Bpage%5D=(\d+)/', $lastPage, $matches);
         $lastPage = isset($matches[1]) ? (int)$matches[1] : 1;
 
         $this->info('Toplam Sayfa: ' . $lastPage);
 
-        // Sayfa sayısı belirsiz olduğu için döngüyle devam edeceğiz
         $page = 1;
 
         while ($page <= $lastPage) {
-            // Sayfa URL'si oluşturuluyor
             $url = $base_url . '?tx_solr%5Bpage%5D=' . $page . '#list';
 
-            // Sayfadaki ilanlar çekiliyor
             $crawler = $client->request('GET', $url);
 
             $crawler->filter('.list__item')->each(function ($node) {
@@ -68,7 +63,6 @@ class ScrapeJobsFromMakeItInGermany extends Command
                     $date = $node->filter('.icon--calendar time')->attr('datetime');
                     $category = $node->filter('.icon--user .element')->text();
 
-                    // Veritabanında job URL'sine göre bir kayıt arayın
                     $job = Job::where('url', $job_url)->first();
 
                     if (!$job) {
@@ -93,7 +87,6 @@ class ScrapeJobsFromMakeItInGermany extends Command
 
             $this->info('Sayfa ' . $page . ' iş ilanları başarıyla toplandı.');
 
-            // Bir sonraki sayfaya geç
             $page++;
         }
 
